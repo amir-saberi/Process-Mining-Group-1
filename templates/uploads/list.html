@@ -20,7 +20,7 @@
 </div>
 
 <div class="card" style="width: 100%;padding:1rem;margin-bottom:1rem;">
-  <form method="get" class="form" style="gap:.5rem;grid-template-columns: 1fr 200px 200px 100px;align-items:end">
+  <form method="get" class="form search-form" style="gap:.5rem;grid-template-columns: 1fr 200px 200px 100px;align-items:end">
     <div class="form-group">
       <label>جستجو</label>
       <input type="text" name="q" value="{{ q }}" placeholder="نام فایل، توضیحات یا کاربر">
@@ -48,7 +48,79 @@
   {% if q %}<p class="muted" style="margin:.5rem 0 0 0">نتیجه جستجو برای: <strong>{{ q }}</strong></p>{% endif %}
  </div>
 
-<table style="width:100%;border-collapse:collapse;font-size:.92rem">
+<style>
+  /* Mobile responsive styles for file list */
+  @media (max-width: 768px) {
+    /* Hide search form grid on mobile, stack vertically */
+    .search-form {
+      grid-template-columns: 1fr !important;
+      gap: 0.75rem !important;
+    }
+    
+    /* Hide table on mobile */
+    .file-table {
+      display: none;
+    }
+    
+    /* Show cards on mobile */
+    .file-cards {
+      display: block;
+    }
+  }
+  
+  @media (min-width: 769px) {
+    /* Hide cards on desktop */
+    .file-cards {
+      display: none;
+    }
+    
+    /* Show table on desktop */
+    .file-table {
+      display: table;
+    }
+  }
+  
+  /* Card styles for mobile */
+  .file-card {
+    background: rgba(17, 24, 39, 0.8);
+    border: 1px solid #1f2937;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .file-card-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid #1f2937;
+  }
+  
+  .file-card-row:last-child {
+    border-bottom: none;
+  }
+  
+  .file-card-label {
+    color: #94a3b8;
+    font-weight: 500;
+  }
+  
+  .file-card-value {
+    color: #e5e7eb;
+    text-align: left;
+  }
+  
+  .file-card-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid #1f2937;
+  }
+</style>
+
+<!-- Desktop Table View -->
+<table class="file-table" style="width:100%;border-collapse:collapse;font-size:.92rem">
   <thead>
     <tr style="text-align:right;border-bottom:2px solid #1f2937">
       <th style="padding:.5rem;text-align:right">نام فایل</th>
@@ -85,4 +157,51 @@
   {% endfor %}
   </tbody>
 </table>
+
+<!-- Mobile Card View -->
+<div class="file-cards">
+  {% for f in files %}
+  <div class="file-card">
+    <div class="file-card-row">
+      <span class="file-card-label">نام فایل:</span>
+      <span class="file-card-value">{{ f.original_name }}</span>
+    </div>
+    <div class="file-card-row">
+      <span class="file-card-label">کاربر:</span>
+      <span class="file-card-value">{{ f.uploader.username }}</span>
+    </div>
+    <div class="file-card-row">
+      <span class="file-card-label">تاریخ:</span>
+      <span class="file-card-value">{{ f.uploaded_at|date:"Y-m-d H:i" }}</span>
+    </div>
+    <div class="file-card-row">
+      <span class="file-card-label">حجم:</span>
+      <span class="file-card-value">{{ f.size_mb }} MB</span>
+    </div>
+    <div class="file-card-row">
+      <span class="file-card-label">نوع:</span>
+      <span class="file-card-value">{{ f.content_type|default:f.extension }}</span>
+    </div>
+    {% if f.description %}
+    <div class="file-card-row">
+      <span class="file-card-label">توضیحات:</span>
+      <span class="file-card-value">{{ f.description }}</span>
+    </div>
+    {% endif %}
+    <div class="file-card-actions">
+      <a class="btn btn-sm" href="{% url 'download_file' f.pk %}" style="flex: 1;">دانلود</a>
+      {% if request.user.is_admin or request.user.id == f.uploader_id %}
+      <form method="post" action="{% url 'delete_file' f.pk %}" onsubmit="return confirm('حذف این فایل؟');" style="flex: 1;">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-sm" style="background:#ef4444;border-color:#ef4444;color:#fff;width:100%">حذف</button>
+      </form>
+      {% endif %}
+    </div>
+  </div>
+  {% empty %}
+  <div class="file-card">
+    <p style="text-align:center;margin:0;color:#94a3b8;">هنوز فایلی آپلود نشده است.</p>
+  </div>
+  {% endfor %}
+</div>
 {% endblock %}

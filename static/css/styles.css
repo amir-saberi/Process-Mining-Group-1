@@ -166,3 +166,71 @@ a.card, a.card:link, a.card:visited, a.card:active, a.card:focus {
 .hov:hover {
   color: var(--primary-600);
 }
+
+/* ============================================
+   MOBILE RESPONSIVE STYLES
+   ============================================ */
+@media (max-width: 768px) {
+  /* Container adjustments for mobile */
+  .container {
+    width: 100%;
+    padding: 0.75rem;
+  }
+  
+  /* Navbar responsive */
+  .navbar {
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0.75rem;
+  }
+  
+  .nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  
+  .navbar a {
+    margin-inline-start: 0;
+    font-size: 0.9rem;
+  }
+  
+  /* Buttons on mobile */
+  .btn {
+    padding: 0.55rem 0.85rem;
+    font-size: 0.95rem;
+  }
+  
+  .btn-sm {
+    padding: 0.5rem 0.7rem;
+    font-size: 0.85rem;
+  }
+  
+  /* Auth forms on mobile */
+  .auth-card {
+    padding: 1rem;
+  }
+  
+  .card-title {
+    font-size: 1.25rem;
+  }
+  
+  /* Form inputs smaller on mobile */
+  .form-group input,
+  .form-group select {
+    padding: 0.6rem 0.75rem;
+    font-size: 0.95rem;
+  }
+  
+  /* Dashboard cards stack on mobile */
+  .dashboard-grid {
+    padding: 1rem 0;
+  }
+  
+  /* Messages on mobile */
+  .message {
+    padding: 0.5rem 0.7rem;
+    font-size: 0.9rem;
+  }
+}
