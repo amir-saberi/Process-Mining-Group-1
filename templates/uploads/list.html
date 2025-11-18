@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block title %}فایل‌ها{% endblock %}
+{% block content %}
+<h2>فایل‌های آپلود شده</h2>
+
+<div class="card" style="width: 100%;padding:1rem;margin-bottom:1.5rem;">
+  <h3 style="margin-top:0">آپلود فایل جدید</h3>
+  <form method="post" enctype="multipart/form-data" action="{% url 'upload_file' %}" class="form" style="gap:.75rem">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="id_file">انتخاب فایل</label>
+      {{ form.file }}
+    </div>
+    <div class="form-group">
+      <label for="id_description">توضیحات (اختیاری)</label>
+      {{ form.description }}
+    </div>
+    <button type="submit" class="btn btn-primary" style="width: 100px;">آپلود</button>
+  </form>
+</div>
+
+<div class="card" style="width: 100%;padding:1rem;margin-bottom:1rem;">
+  <form method="get" class="form" style="gap:.5rem;grid-template-columns: 1fr 200px 200px 100px;align-items:end">
+    <div class="form-group">
+      <label>جستجو</label>
+      <input type="text" name="q" value="{{ q }}" placeholder="نام فایل، توضیحات یا کاربر">
+    </div>
+    <div class="form-group">
+      <label>مرتب‌سازی</label>
+      <select name="s" style="width: 100%;">
+        <option value="date" {% if s == 'date' %}selected{% endif %}>تاریخ</option>
+        <option value="name" {% if s == 'name' %}selected{% endif %}>نام</option>
+        <option value="size" {% if s == 'size' %}selected{% endif %}>حجم</option>
+        <option value="user" {% if s == 'user' %}selected{% endif %}>کاربر</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>ترتیب</label>
+      <select name="o" style="width: 100%;">
+        <option value="desc" {% if o == 'desc' %}selected{% endif %}>نزولی</option>
+        <option value="asc" {% if o == 'asc' %}selected{% endif %}>صعودی</option>
+      </select>
+    </div>
+    <div>
+      <button class="btn btn-sm" type="submit" style="width: 100%;">اعمال</button>
+    </div>
+  </form>
+  {% if q %}<p class="muted" style="margin:.5rem 0 0 0">نتیجه جستجو برای: <strong>{{ q }}</strong></p>{% endif %}
+ </div>
+
+<table style="width:100%;border-collapse:collapse;font-size:.92rem">
+  <thead>
+    <tr style="text-align:right;border-bottom:1px solid #1f2937">
+      <th style="padding:.5rem">نام فایل</th>
+      <th style="padding:.5rem">کاربر</th>
+      <th style="padding:.5rem; width: 140px;">تاریخ</th>
+      <th style="padding:.5rem">حجم (بایت)</th>
+      <th style="padding:.5rem">نوع/پسوند</th>
+      <th style="padding:.5rem">دانلود</th>
+      <th style="padding:.5rem">حذف</th>
+      <th style="padding:.5rem">توضیحات</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for f in files %}
+    <tr style="border-bottom:1px solid #1f2937">
+      <td style="padding:.5rem">{{ f.original_name }}</td>
+      <td style="padding:.5rem">{{ f.uploader.username }}</td>
+      <td style="padding:.5rem">{{ f.uploaded_at|date:"Y-m-d H:i" }}</td>
+      <td style="padding:.5rem;direction:ltr">{{ f.size_bytes }}</td>
+      <td style="padding:.5rem">{{ f.content_type|default:f.extension }}</td>
+      <td style="padding:.5rem"><a class="btn btn-sm" href="{% url 'download_file' f.pk %}">دانلود</a></td>
+      <td style="padding:.5rem">
+        {% if request.user.is_admin or request.user.id == f.uploader_id %}
+        <form method="post" action="{% url 'delete_file' f.pk %}" onsubmit="return confirm('حذف این فایل؟');">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-sm" style="background:#ef4444;border-color:#ef4444;color:#fff">حذف</button>
+        </form>
+        {% else %}-{% endif %}
+      </td>
+      <td style="padding:.5rem">{{ f.description|default:"-" }}</td>
+    </tr>
+  {% empty %}
+    <tr><td colspan="8" style="padding:.75rem">هنوز فایلی آپلود نشده است.</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
