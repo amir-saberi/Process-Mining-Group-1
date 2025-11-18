@@ -129,67 +129,6 @@ http://127.0.0.1:8000/
 
 Base URL: `http://127.0.0.1:8000/api/`
 
-### Authentication
-
-**Register:**
-```bash
-POST /api/register/
-Content-Type: application/json
-
-{
-  "username": "testuser",
-  "email": "test@example.com",
-  "password": "password123"
-}
-```
-
-**Login:**
-```bash
-POST /api/login/
-Content-Type: application/json
-
-{
-  "username": "admin",
-  "password": "Admin@12345"
-}
-```
-
-### File Management
-
-**List files:**
-```bash
-GET /api/uploads/files/
-Authorization: Token YOUR_TOKEN_HERE
-```
-
-**Upload file:**
-```bash
-POST /api/uploads/files/
-Authorization: Token YOUR_TOKEN_HERE
-Content-Type: multipart/form-data
-
-{
-  "title": "File Title",
-  "description": "Description",
-  "file": [FILE]
-}
-```
-
-**Download file:**
-```bash
-GET /api/uploads/files/{id}/download/
-Authorization: Token YOUR_TOKEN_HERE
-```
-
-## Technologies Used
-
-- Backend: Django 5.1.3
-- API: Django REST Framework 3.15.2
-- Database (Local): SQLite3
-- Database (Production): PostgreSQL / MySQL
-- Server (Production): Gunicorn
-- Static Files: WhiteNoise
-
 ## Authors
 
 Amir Hossein Saberi  
