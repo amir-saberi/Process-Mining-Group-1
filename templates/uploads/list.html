@@ -50,27 +50,27 @@
 
 <table style="width:100%;border-collapse:collapse;font-size:.92rem">
   <thead>
-    <tr style="text-align:right;border-bottom:1px solid #1f2937">
-      <th style="padding:.5rem">نام فایل</th>
-      <th style="padding:.5rem">کاربر</th>
-      <th style="padding:.5rem; width: 140px;">تاریخ</th>
-      <th style="padding:.5rem">حجم (بایت)</th>
-      <th style="padding:.5rem">نوع/پسوند</th>
-      <th style="padding:.5rem">دانلود</th>
-      <th style="padding:.5rem">حذف</th>
-      <th style="padding:.5rem">توضیحات</th>
+    <tr style="text-align:right;border-bottom:2px solid #1f2937">
+      <th style="padding:.5rem;text-align:right">نام فایل</th>
+      <th style="padding:.5rem;text-align:right">کاربر</th>
+      <th style="padding:.5rem;text-align:right;width:140px">تاریخ</th>
+      <th style="padding:.5rem;text-align:right;width:100px">حجم (MB)</th>
+      <th style="padding:.5rem;text-align:right;width:120px">نوع/پسوند</th>
+      <th style="padding:.5rem;text-align:center;width:80px">دانلود</th>
+      <th style="padding:.5rem;text-align:center;width:80px">حذف</th>
+      <th style="padding:.5rem;text-align:right">توضیحات</th>
     </tr>
   </thead>
   <tbody>
   {% for f in files %}
-    <tr style="border-bottom:1px solid #1f2937">
-      <td style="padding:.5rem">{{ f.original_name }}</td>
-      <td style="padding:.5rem">{{ f.uploader.username }}</td>
-      <td style="padding:.5rem">{{ f.uploaded_at|date:"Y-m-d H:i" }}</td>
-      <td style="padding:.5rem;direction:ltr">{{ f.size_bytes }}</td>
-      <td style="padding:.5rem">{{ f.content_type|default:f.extension }}</td>
-      <td style="padding:.5rem"><a class="btn btn-sm" href="{% url 'download_file' f.pk %}">دانلود</a></td>
-      <td style="padding:.5rem">
+    <tr style="border-bottom:1px solid #e5e7eb">
+      <td style="padding:.5rem;text-align:right">{{ f.original_name }}</td>
+      <td style="padding:.5rem;text-align:right">{{ f.uploader.username }}</td>
+      <td style="padding:.5rem;text-align:right">{{ f.uploaded_at|date:"Y-m-d H:i" }}</td>
+      <td style="padding:.5rem;text-align:right">{{ f.size_mb }}</td>
+      <td style="padding:.5rem;text-align:right">{{ f.content_type|default:f.extension }}</td>
+      <td style="padding:.5rem;text-align:center"><a class="btn btn-sm" href="{% url 'download_file' f.pk %}">دانلود</a></td>
+      <td style="padding:.5rem;text-align:center">
         {% if request.user.is_admin or request.user.id == f.uploader_id %}
         <form method="post" action="{% url 'delete_file' f.pk %}" onsubmit="return confirm('حذف این فایل؟');">
           {% csrf_token %}
@@ -78,10 +78,10 @@
         </form>
         {% else %}-{% endif %}
       </td>
-      <td style="padding:.5rem">{{ f.description|default:"-" }}</td>
+      <td style="padding:.5rem;text-align:right">{{ f.description|default:"-" }}</td>
     </tr>
   {% empty %}
-    <tr><td colspan="8" style="padding:.75rem">هنوز فایلی آپلود نشده است.</td></tr>
+    <tr><td colspan="8" style="padding:.75rem;text-align:center">هنوز فایلی آپلود نشده است.</td></tr>
   {% endfor %}
   </tbody>
 </table>

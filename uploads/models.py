@@ -25,6 +25,14 @@ class UploadedFile(models.Model):
             return 0.0
 
     @property
+    def size_mb(self) -> float:
+        """Return file size in megabytes"""
+        try:
+            return round(self.size_bytes / (1024 * 1024), 2)
+        except Exception:
+            return 0.0
+
+    @property
     def extension(self) -> str:
         try:
             name = self.original_name
