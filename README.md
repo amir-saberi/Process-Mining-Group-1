@@ -18,24 +18,24 @@ A Django web application for managing file uploads and downloads with user authe
 ```
 django-file-upload/
 ├── accounts/           # User management application
-│   ├── api/           # API endpoints
-│   ├── management/    # Custom management commands
-│   ├── models.py      # Custom User model
-│   ├── forms.py       # Registration and login forms
-│   └── views.py       # Authentication views
-├── uploads/           # File upload application
-│   ├── models.py      # UploadedFile model
-│   ├── forms.py       # Upload form
-│   └── views.py       # Upload/download views
-├── config/            # Project settings
-│   ├── settings.py    # Django settings
-│   ├── urls.py        # Main URLs
-│   └── wsgi.py        # WSGI configuration
-├── templates/         # HTML templates
-├── static/           # Static files (CSS, JS)
-├── media/            # User uploaded files
-├── requirements.txt  # Python dependencies
-└── manage.py         # Django management script
+│   ├── api/            # API endpoints
+│   ├── management/     # Custom management commands
+│   ├── models.py       # Custom User model
+│   ├── forms.py        # Registration and login forms
+│   └── views.py        # Authentication views
+├── uploads/            # File upload application
+│   ├── models.py       # UploadedFile model
+│   ├── forms.py        # Upload form
+│   └── views.py        # Upload/download views
+├── config/             # Project settings
+│   ├── settings.py     # Django settings
+│   ├── urls.py         # Main URLs
+│   └── wsgi.py         # WSGI configuration
+├── templates/          # HTML templates
+├── static/             # Static files (CSS, JS)
+├── media/              # User uploaded files
+├── requirements.txt    # Python dependencies
+└── manage.py           # Django management script
 ```
 
 ## Prerequisites
