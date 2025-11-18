@@ -57,21 +57,40 @@ ASGI_APPLICATION = 'config.asgi.application'
 
 # Database Configuration
 # برای محیط محلی از SQLite استفاده می‌شود
-# برای production (Render) از PostgreSQL استفاده می‌شود
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# برای PythonAnywhere از MySQL استفاده می‌شود
+# برای Render از PostgreSQL استفاده می‌شود
 
-# اگر DATABASE_URL موجود باشد (در Render)، از آن استفاده کن
-if config('DATABASE_URL', default=None):
-    DATABASES['default'] = dj_database_url.parse(
-        config('DATABASE_URL'),
-        conn_max_age=600,
-        conn_health_checks=True,
-    )
+if config('DB_NAME', default=None):
+    # MySQL برای PythonAnywhere
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': config('DB_NAME'),
+            'USER': config('DB_USER'),
+            'PASSWORD': config('DB_PASSWORD'),
+            'HOST': config('DB_HOST'),
+            'OPTIONS': {
+                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+            },
+        }
+    }
+elif config('DATABASE_URL', default=None):
+    # PostgreSQL برای Render
+    DATABASES = {
+        'default': dj_database_url.parse(
+            config('DATABASE_URL'),
+            conn_max_age=600,
+            conn_health_checks=True,
+        )
+    }
+else:
+    # SQLite برای محیط محلی
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 # Keep passwords simple for phase 1 (Django still hashes them securely)
 AUTH_PASSWORD_VALIDATORS: list[dict] = []
