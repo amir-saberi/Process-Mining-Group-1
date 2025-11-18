@@ -1,41 +1,64 @@
-# 📁 سیستم آپلود و دانلود فایل با Django
+# Django File Upload System
 
-یک وب‌اپلیکیشن کامل با Django برای مدیریت، آپلود و دانلود فایل‌ها با سیستم احراز هویت و API.
+A Django web application for managing file uploads and downloads with user authentication and REST API.
 
-## ✨ امکانات
+## Features
 
-- 🔐 سیستم احراز هویت کامل (ثبت‌نام، ورود، خروج)
-- 📤 آپلود فایل با اطلاعات کامل (نام، توضیحات، اندازه، نوع)
-- 📥 دانلود فایل‌های آپلود شده
-- 👥 سطوح دسترسی کاربران (Admin, Staff, Regular User)
-- 🔌 REST API کامل با Django REST Framework
-- 🔑 احراز هویت API با Token
-- 📊 داشبورد کاربری
-- 🌐 رابط کاربری فارسی
+- User authentication system (Register, Login, Logout)
+- File upload with metadata (title, description, size, content type)
+- File download functionality
+- User role management (Admin, Staff, Regular User)
+- RESTful API with Django REST Framework
+- Token-based API authentication
+- User dashboard
+- Persian language support
 
-## 🚀 نصب و راه‌اندازی محلی
+## Project Structure
 
-### پیش‌نیازها
-
-- Python 3.12 یا بالاتر
-- Git
-
-### مراحل نصب
-
-**1. کلون کردن پروژه:**
-
-```bash
-git clone https://github.com/YOUR_USERNAME/django-file-upload.git
-cd django-file-upload
+```
+django-file-upload/
+├── accounts/           # User management application
+│   ├── api/           # API endpoints
+│   ├── management/    # Custom management commands
+│   ├── models.py      # Custom User model
+│   ├── forms.py       # Registration and login forms
+│   └── views.py       # Authentication views
+├── uploads/           # File upload application
+│   ├── models.py      # UploadedFile model
+│   ├── forms.py       # Upload form
+│   └── views.py       # Upload/download views
+├── config/            # Project settings
+│   ├── settings.py    # Django settings
+│   ├── urls.py        # Main URLs
+│   └── wsgi.py        # WSGI configuration
+├── templates/         # HTML templates
+├── static/           # Static files (CSS, JS)
+├── media/            # User uploaded files
+├── requirements.txt  # Python dependencies
+└── manage.py         # Django management script
 ```
 
-**2. ساخت محیط مجازی (Virtual Environment):**
+## Prerequisites
+
+- Python 3.10 or higher
+- pip (Python package manager)
+
+## Installation
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/amir-saberi/Process-Mining-Group-1.git
+cd Process-Mining-Group-1
+```
+
+### 2. Create virtual environment
 
 ```bash
 python -m venv .venv
 ```
 
-**3. فعال‌سازی محیط مجازی:**
+### 3. Activate virtual environment
 
 **Windows (PowerShell):**
 ```powershell
@@ -52,91 +75,63 @@ python -m venv .venv
 source .venv/bin/activate
 ```
 
-**4. نصب وابستگی‌ها:**
+### 4. Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-**5. ایجاد فایل `.env`:**
+### 5. Create .env file
 
-فایل `.env.example` را کپی کرده و به `.env` تغییر نام دهید:
+Copy `.env.example` to `.env`:
 
 ```bash
 cp .env.example .env
 ```
 
-محتوای `.env` را ویرایش کنید:
+Edit `.env` file:
 
 ```env
-SECRET_KEY=your-super-secret-key-here
+SECRET_KEY=your-secret-key-here
 DEBUG=True
 ALLOWED_HOSTS=localhost,127.0.0.1
 ```
 
-**6. اجرای Migrations:**
+### 6. Run database migrations
 
 ```bash
 python manage.py migrate
 ```
 
-**7. ایجاد کاربر ادمین:**
+### 7. Create admin user
 
 ```bash
-# روش 1: ساخت ادمین پیش‌فرض
+# Method 1: Create default admin
 python manage.py seed_admin
 # Username: admin
 # Password: Admin@12345
 
-# روش 2: ساخت سوپریوزر سفارشی
+# Method 2: Create custom superuser
 python manage.py createsuperuser
 ```
 
-**8. اجرای سرور توسعه:**
+### 8. Run development server
 
 ```bash
 python manage.py runserver
 ```
 
-**9. باز کردن در مرورگر:**
+### 9. Open in browser
 
 http://127.0.0.1:8000/
 
-## 📁 ساختار پروژه
+## API Usage
 
-```
-django-file-upload/
-├── accounts/           # اپلیکیشن مدیریت کاربران
-│   ├── api/           # API endpoints
-│   ├── management/    # کامندهای سفارشی
-│   ├── models.py      # مدل User سفارشی
-│   ├── forms.py       # فرم‌های ثبت‌نام و ورود
-│   └── views.py       # ویوهای احراز هویت
-├── uploads/           # اپلیکیشن آپلود فایل
-│   ├── models.py      # مدل UploadedFile
-│   ├── forms.py       # فرم آپلود
-│   └── views.py       # ویوهای آپلود/دانلود
-├── config/            # تنظیمات پروژه
-│   ├── settings.py    # تنظیمات Django
-│   ├── urls.py        # URLهای اصلی
-│   └── wsgi.py        # WSGI config
-├── templates/         # قالب‌های HTML
-├── static/           # فایل‌های استاتیک (CSS, JS)
-├── media/            # فایل‌های آپلود شده کاربران
-├── requirements.txt  # وابستگی‌های Python
-├── .env.example      # نمونه فایل تنظیمات محیطی
-├── build.sh          # اسکریپت build برای Render
-├── render.yaml       # پیکربندی Render
-└── manage.py         # اسکریپت مدیریت Django
-```
+Base URL: `http://127.0.0.1:8000/api/`
 
-## 🔌 استفاده از API
+### Authentication
 
-**Base URL:** `http://127.0.0.1:8000/api/`
-
-### احراز هویت
-
-**ثبت‌نام:**
+**Register:**
 ```bash
 POST /api/register/
 Content-Type: application/json
@@ -146,11 +141,9 @@ Content-Type: application/json
   "email": "test@example.com",
   "password": "password123"
 }
-
-# پاسخ شامل Token می‌باشد
 ```
 
-**ورود:**
+**Login:**
 ```bash
 POST /api/login/
 Content-Type: application/json
@@ -159,191 +152,50 @@ Content-Type: application/json
   "username": "admin",
   "password": "Admin@12345"
 }
-
-# پاسخ شامل Token می‌باشد
 ```
 
-### مدیریت فایل‌ها
+### File Management
 
-**دریافت لیست فایل‌ها:**
+**List files:**
 ```bash
 GET /api/uploads/files/
 Authorization: Token YOUR_TOKEN_HERE
 ```
 
-**آپلود فایل:**
+**Upload file:**
 ```bash
 POST /api/uploads/files/
 Authorization: Token YOUR_TOKEN_HERE
 Content-Type: multipart/form-data
 
 {
-  "title": "عنوان فایل",
-  "description": "توضیحات",
+  "title": "File Title",
+  "description": "Description",
   "file": [FILE]
 }
 ```
 
-**دانلود فایل:**
+**Download file:**
 ```bash
 GET /api/uploads/files/{id}/download/
 Authorization: Token YOUR_TOKEN_HERE
 ```
 
-## 🌐 استقرار روی Render
+## Technologies Used
 
-این پروژه برای استقرار آسان روی [Render.com](https://render.com) آماده شده است.
+- Backend: Django 5.1.3
+- API: Django REST Framework 3.15.2
+- Database (Local): SQLite3
+- Database (Production): PostgreSQL / MySQL
+- Server (Production): Gunicorn
+- Static Files: WhiteNoise
 
-### مرحله 1: آماده‌سازی کد
+## Authors
 
-کد شما شامل تمام فایل‌های لازم است:
-- ✅ `render.yaml` - پیکربندی خودکار
-- ✅ `build.sh` - اسکریپت build
-- ✅ `requirements.txt` - وابستگی‌ها
-- ✅ `.gitignore` - فایل‌های غیرضروری
+Amir Hossein Saberi  
+Reihane Rezaie
 
-### مرحله 2: ثبت‌نام در Render
+## Project Information
 
-1. به [render.com](https://render.com) بروید
-2. روی **"Get Started for Free"** کلیک کنید
-3. با حساب **GitHub** خود وارد شوید
-
-### مرحله 3: اتصال GitHub
-
-1. در Render، اجازه دسترسی به مخزن GitHub خود را بدهید
-2. Render به مخزن شما دسترسی پیدا می‌کند
-
-### مرحله 4: ایجاد Web Service از Blueprint
-
-1. روی **"New +"** کلیک کنید
-2. گزینه **"Blueprint"** را انتخاب کنید
-3. مخزن `django-file-upload` خود را انتخاب کنید
-4. Render فایل `render.yaml` را شناسایی می‌کند
-5. روی **"Apply"** کلیک کنید
-
-Render به صورت خودکار:
-- یک **Web Service** (Django app) می‌سازد
-- یک **PostgreSQL Database** رایگان ایجاد می‌کند
-- متغیرهای محیطی را تنظیم می‌کند:
-  - `SECRET_KEY` (تولید خودکار)
-  - `DATABASE_URL` (اتصال به PostgreSQL)
-  - `DEBUG=False`
-
-### مرحله 5: منتظر Build بمانید
-
-- Build اولیه 5-10 دقیقه طول می‌کشد
-- در صفحه **Logs** می‌توانید پیشرفت را ببینید
-- وقتی "Deploy live" را دیدید، سایت شما آماده است!
-
-### مرحله 6: ایجاد Superuser
-
-بعد از deploy موفق:
-
-1. در صفحه Web Service خود، به **Shell** بروید
-2. دستور زیر را اجرا کنید:
-
-```bash
-python manage.py createsuperuser
-```
-
-یا از ادمین پیش‌فرض استفاده کنید:
-
-```bash
-python manage.py seed_admin
-```
-
-### مرحله 7: دسترسی به سایت
-
-URL سایت شما:
-```
-https://your-app-name.onrender.com
-```
-
-پنل ادمین:
-```
-https://your-app-name.onrender.com/admin
-```
-
-## ⚠️ نکات مهم برای Production
-
-### محدودیت‌های سرویس رایگان Render:
-
-1. **سرویس Web خواب می‌رود:**
-   - بعد از 15 دقیقه بدون فعالیت، سرویس خاموش می‌شود
-   - اولین درخواست بعد از خواب 30-60 ثانیه طول می‌کشد
-
-2. **دیتابیس PostgreSQL:**
-   - دیتابیس رایگان بعد از 90 روز منقضی می‌شود
-   - برای استفاده طولانی‌مدت، باید پلن پولی تهیه کنید
-
-3. **فایل‌های آپلود شده:**
-   - Render فایل‌های آپلود شده را **حذف می‌کند** هر بار که deploy جدید انجام می‌شود
-   - برای ذخیره دائمی فایل‌ها، باید از **Object Storage** استفاده کنید
-
-### راه‌حل برای ذخیره فایل‌ها:
-
-**گزینه 1: Cloudinary (پیشنهادی)** ✅
-
-```bash
-pip install cloudinary django-cloudinary-storage
-```
-
-**گزینه 2: AWS S3**
-
-**گزینه 3: Supabase Storage**
-
-## 🔒 امنیت
-
-- ✅ تمام رمزهای عبور با الگوریتم PBKDF2 هش می‌شوند
-- ✅ احراز هویت Token-based برای API
-- ✅ سطوح دسترسی کاربران (Admin, Staff, User)
-- ✅ محافظت CSRF برای فرم‌ها
-- ✅ فایل `.env` در `.gitignore` برای محافظت از اطلاعات حساس
-- ✅ `DEBUG=False` در production
-- ✅ `SECRET_KEY` منحصر به فرد برای هر محیط
-
-## 🛠️ تکنولوژی‌های استفاده شده
-
-- **Backend:** Django 5.1.3
-- **API:** Django REST Framework 3.15.2
-- **Database (Local):** SQLite3
-- **Database (Production):** PostgreSQL
-- **Server (Production):** Gunicorn
-- **Static Files:** WhiteNoise
-- **Hosting:** Render.com
-
-## 📝 لیست کارها (TODO)
-
-- [ ] اضافه کردن Cloudinary برای ذخیره فایل‌ها
-- [ ] محدودیت حجم فایل
-- [ ] پشتیبانی از انواع خاص فایل
-- [ ] سیستم دسته‌بندی فایل‌ها
-- [ ] جستجوی پیشرفته
-- [ ] رابط کاربری بهتر با Bootstrap 5
-
-## 🤝 مشارکت
-
-1. Fork کنید
-2. Branch جدید بسازید (`git checkout -b feature/AmazingFeature`)
-3. تغییرات را commit کنید (`git commit -m 'Add some AmazingFeature'`)
-4. Push کنید (`git push origin feature/AmazingFeature`)
-5. Pull Request باز کنید
-
-## 📄 لایسنس
-
-این پروژه تحت لایسنس MIT منتشر شده است.
-
-## 👤 سازنده
-
-[@YOUR_USERNAME](https://github.com/YOUR_USERNAME)
-
-## 🙏 تشکر
-
-- [Django](https://www.djangoproject.com/)
-- [Django REST Framework](https://www.django-rest-framework.org/)
-- [Render](https://render.com/)
-- [WhiteNoise](http://whitenoise.evans.io/)
-
----
-
-⭐ **اگر این پروژه برایتان مفید بود، لطفاً یک ستاره (Star) بدهید!**
+Repository: Process-Mining-Group-1  
+Owner: amir-saberi

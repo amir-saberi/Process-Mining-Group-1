@@ -25,7 +25,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # برای سرو فایل‌های استاتیک در production
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # For serving static files in production
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -56,12 +56,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 ASGI_APPLICATION = 'config.asgi.application'
 
 # Database Configuration
-# برای محیط محلی از SQLite استفاده می‌شود
-# برای PythonAnywhere از MySQL استفاده می‌شود
-# برای Render از PostgreSQL استفاده می‌شود
+# Uses SQLite for local development
+# Uses MySQL for PythonAnywhere
+# Uses PostgreSQL for Render
 
 if config('DB_NAME', default=None):
-    # MySQL برای PythonAnywhere
+    # MySQL for PythonAnywhere
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
@@ -75,7 +75,7 @@ if config('DB_NAME', default=None):
         }
     }
 elif config('DATABASE_URL', default=None):
-    # PostgreSQL برای Render
+    # PostgreSQL for Render
     DATABASES = {
         'default': dj_database_url.parse(
             config('DATABASE_URL'),
@@ -84,7 +84,7 @@ elif config('DATABASE_URL', default=None):
         )
     }
 else:
-    # SQLite برای محیط محلی
+    # SQLite for local development
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -103,9 +103,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
-STATIC_ROOT = BASE_DIR / 'staticfiles'  # برای collectstatic در production
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # For collectstatic in production
 
-# WhiteNoise configuration برای سرو بهتر فایل‌های استاتیک
+# WhiteNoise configuration for better static file serving
 STORAGES = {
     "default": {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
