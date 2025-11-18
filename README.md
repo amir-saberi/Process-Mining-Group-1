@@ -1,4 +1,4 @@
-# Django File Upload System
+# User Management & Role-Based Access Control (Django + DRF)
 
 A Django web application for managing file uploads and downloads with user authentication and REST API.
 
