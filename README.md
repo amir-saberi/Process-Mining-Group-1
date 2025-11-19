@@ -134,6 +134,12 @@ Base URL: `http://127.0.0.1:8000/api/`
 Amir Hossein Saberi  
 Reihane Rezaie
 
+## Contact
+
+For any questions or collaboration, feel free to reach out:
+
+📬 Telegram: t.me/Definitely_Not_Amir
+
 ## Project Information
 
 Repository: Process-Mining-Group-1  
