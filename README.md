@@ -138,7 +138,7 @@ Reihane Rezaie
 
 For any questions or collaboration, feel free to reach out:
 
-📬 Telegram: @Definitely_Not_Amir
+Telegram: @Definitely_Not_Amir
 
 ## Project Information
 
